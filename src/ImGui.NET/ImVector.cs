@@ -3,6 +3,20 @@ using System.Runtime.CompilerServices;
 
 namespace ImGuiNET
 {
+    public unsafe struct ImVec2
+    {
+        public float x;
+        public float y;
+    }
+    
+    public unsafe struct ImVec4
+    {
+        public float x;
+        public float y;
+        public float z;
+        public float w;
+    }
+    
     public unsafe struct ImVector
     {
         public readonly int Size;
