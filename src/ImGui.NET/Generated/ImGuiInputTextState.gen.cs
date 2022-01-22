@@ -21,9 +21,7 @@ namespace ImGuiNET
         public byte CursorFollow;
         public byte SelectedAllMouseLock;
         public byte Edited;
-        public ImGuiInputTextFlags UserFlags;
-        public void* UserCallback;
-        public void* UserCallbackData;
+        public ImGuiInputTextFlags Flags;
     }
     public unsafe partial struct ImGuiInputTextStatePtr
     {
@@ -47,9 +45,7 @@ namespace ImGuiNET
         public ref bool CursorFollow => ref Unsafe.AsRef<bool>(&NativePtr->CursorFollow);
         public ref bool SelectedAllMouseLock => ref Unsafe.AsRef<bool>(&NativePtr->SelectedAllMouseLock);
         public ref bool Edited => ref Unsafe.AsRef<bool>(&NativePtr->Edited);
-        public ref ImGuiInputTextFlags UserFlags => ref Unsafe.AsRef<ImGuiInputTextFlags>(&NativePtr->UserFlags);
-        public ref ImGuiInputTextCallback UserCallback => ref Unsafe.AsRef<ImGuiInputTextCallback>(&NativePtr->UserCallback);
-        public IntPtr UserCallbackData { get => (IntPtr)NativePtr->UserCallbackData; set => NativePtr->UserCallbackData = (void*)value; }
+        public ref ImGuiInputTextFlags Flags => ref Unsafe.AsRef<ImGuiInputTextFlags>(&NativePtr->Flags);
         public void ClearFreeMemory()
         {
             ImGuiNative.ImGuiInputTextState_ClearFreeMemory((ImGuiInputTextState*)(NativePtr));
@@ -74,9 +70,24 @@ namespace ImGuiNET
         {
             ImGuiNative.ImGuiInputTextState_destroy((ImGuiInputTextState*)(NativePtr));
         }
+        public int GetCursorPos()
+        {
+            int ret = ImGuiNative.ImGuiInputTextState_GetCursorPos((ImGuiInputTextState*)(NativePtr));
+            return ret;
+        }
         public int GetRedoAvailCount()
         {
             int ret = ImGuiNative.ImGuiInputTextState_GetRedoAvailCount((ImGuiInputTextState*)(NativePtr));
+            return ret;
+        }
+        public int GetSelectionEnd()
+        {
+            int ret = ImGuiNative.ImGuiInputTextState_GetSelectionEnd((ImGuiInputTextState*)(NativePtr));
+            return ret;
+        }
+        public int GetSelectionStart()
+        {
+            int ret = ImGuiNative.ImGuiInputTextState_GetSelectionStart((ImGuiInputTextState*)(NativePtr));
             return ret;
         }
         public int GetUndoAvailCount()

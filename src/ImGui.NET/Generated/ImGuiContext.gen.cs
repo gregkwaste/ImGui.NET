@@ -5,31 +5,34 @@ using System.Text;
 
 namespace ImGuiNET
 {
-    
+
+
     public unsafe partial struct ImVector_ImGuiTableSettings
     {
         public int Size;
         public int Capacity;
         public ImGuiTableSettings* Data;
     }
-    
+
     public unsafe partial struct ImChunkStream_ImGuiTableSettings
     {
         public ImVector_ImGuiTableSettings Buf;
     }
-    
+
     public unsafe partial struct ImVector_ImGuiWindowSettings
     {
         public int Size;
         public int Capacity;
         public ImGuiWindowSettings* Data;
     }
-    
+
     public unsafe partial struct ImChunkStream_ImGuiWindowSettings
     {
         public ImVector_ImGuiWindowSettings Buf;
     }
-    
+
+
+
     public unsafe partial struct ImGuiContext
     {
         public byte Initialized;
@@ -42,7 +45,7 @@ namespace ImGuiNET
         public ImFont* Font;
         public float FontSize;
         public float FontBaseSize;
-        public ImDrawListSharedData DrawListSharedData;
+        public IntPtr DrawListSharedData;
         public double Time;
         public int FrameCount;
         public int FrameCountEnded;
@@ -53,7 +56,6 @@ namespace ImGuiNET
         public byte WithinEndChild;
         public byte GcCompactAll;
         public byte TestEngineHookItems;
-        public uint TestEngineHookIdInfo;
         public void* TestEngine;
         public ImVector Windows;
         public ImVector WindowsFocusOrder;
@@ -61,14 +63,16 @@ namespace ImGuiNET
         public ImVector CurrentWindowStack;
         public ImGuiStorage WindowsById;
         public int WindowsActiveCount;
+        public Vector2 WindowsHoverPadding;
         public ImGuiWindow* CurrentWindow;
         public ImGuiWindow* HoveredWindow;
         public ImGuiWindow* HoveredWindowUnderMovingWindow;
         public ImGuiDockNode* HoveredDockNode;
         public ImGuiWindow* MovingWindow;
         public ImGuiWindow* WheelingWindow;
-        public ImVec2 WheelingWindowRefMousePos;
+        public Vector2 WheelingWindowRefMousePos;
         public float WheelingWindowTimer;
+        public uint DebugHookIdInfo;
         public uint HoveredId;
         public uint HoveredIdPreviousFrame;
         public byte HoveredIdAllowOverlap;
@@ -90,7 +94,7 @@ namespace ImGuiNET
         public uint ActiveIdUsingNavDirMask;
         public uint ActiveIdUsingNavInputMask;
         public ulong ActiveIdUsingKeyInputMask;
-        public ImVec2 ActiveIdClickOffset;
+        public Vector2 ActiveIdClickOffset;
         public ImGuiWindow* ActiveIdWindow;
         public ImGuiInputSource ActiveIdSource;
         public int ActiveIdMouseButton;
@@ -100,8 +104,10 @@ namespace ImGuiNET
         public ImGuiWindow* ActiveIdPreviousFrameWindow;
         public uint LastActiveId;
         public float LastActiveIdTimer;
-        public ImGuiNextWindowData NextWindowData;
+        public ImGuiItemFlags CurrentItemFlags;
         public ImGuiNextItemData NextItemData;
+        public ImGuiLastItemData LastItemData;
+        public ImGuiNextWindowData NextWindowData;
         public ImVector ColorStack;
         public ImVector StyleVarStack;
         public ImVector FontStack;
@@ -110,6 +116,7 @@ namespace ImGuiNET
         public ImVector GroupStack;
         public ImVector OpenPopupStack;
         public ImVector BeginPopupStack;
+        public int BeginMenuCount;
         public ImVector Viewports;
         public float CurrentDpiScale;
         public ImGuiViewportP* CurrentViewport;
@@ -124,17 +131,15 @@ namespace ImGuiNET
         public uint NavActivateId;
         public uint NavActivateDownId;
         public uint NavActivatePressedId;
-        public uint NavInputId;
-        public uint NavJustTabbedId;
+        public uint NavActivateInputId;
+        public ImGuiActivateFlags NavActivateFlags;
         public uint NavJustMovedToId;
         public uint NavJustMovedToFocusScopeId;
         public ImGuiKeyModFlags NavJustMovedToKeyMods;
         public uint NavNextActivateId;
+        public ImGuiActivateFlags NavNextActivateFlags;
         public ImGuiInputSource NavInputSource;
-        public ImRect NavScoringRect;
-        public int NavScoringCount;
         public ImGuiNavLayer NavLayer;
-        public int NavIdTabCounter;
         public byte NavIdIsAlive;
         public byte NavMousePosDirty;
         public byte NavDisableHighlight;
@@ -144,31 +149,30 @@ namespace ImGuiNET
         public byte NavInitRequestFromMove;
         public uint NavInitResultId;
         public ImRect NavInitResultRectRel;
-        public byte NavMoveRequest;
-        public ImGuiNavMoveFlags NavMoveRequestFlags;
-        public ImGuiNavForward NavMoveRequestForward;
-        public ImGuiKeyModFlags NavMoveRequestKeyMods;
+        public byte NavMoveSubmitted;
+        public byte NavMoveScoringItems;
+        public byte NavMoveForwardToNextFrame;
+        public ImGuiNavMoveFlags NavMoveFlags;
+        public ImGuiScrollFlags NavMoveScrollFlags;
+        public ImGuiKeyModFlags NavMoveKeyMods;
         public ImGuiDir NavMoveDir;
-        public ImGuiDir NavMoveDirLast;
+        public ImGuiDir NavMoveDirForDebug;
         public ImGuiDir NavMoveClipDir;
-        public ImGuiNavMoveResult NavMoveResultLocal;
-        public ImGuiNavMoveResult NavMoveResultLocalVisibleSet;
-        public ImGuiNavMoveResult NavMoveResultOther;
-        public ImGuiWindow* NavWrapRequestWindow;
-        public ImGuiNavMoveFlags NavWrapRequestFlags;
+        public ImRect NavScoringRect;
+        public ImRect NavScoringNoClipRect;
+        public int NavScoringDebugCount;
+        public int NavTabbingDir;
+        public int NavTabbingCounter;
+        public ImGuiNavItemData NavMoveResultLocal;
+        public ImGuiNavItemData NavMoveResultLocalVisible;
+        public ImGuiNavItemData NavMoveResultOther;
+        public ImGuiNavItemData NavTabbingResultFirst;
         public ImGuiWindow* NavWindowingTarget;
         public ImGuiWindow* NavWindowingTargetAnim;
         public ImGuiWindow* NavWindowingListWindow;
         public float NavWindowingTimer;
         public float NavWindowingHighlightAlpha;
         public byte NavWindowingToggleLayer;
-        public ImGuiWindow* TabFocusRequestCurrWindow;
-        public ImGuiWindow* TabFocusRequestNextWindow;
-        public int TabFocusRequestCurrCounterRegular;
-        public int TabFocusRequestCurrCounterTabStop;
-        public int TabFocusRequestNextCounterRegular;
-        public int TabFocusRequestNextCounterTabStop;
-        public byte TabFocusPressed;
         public float DimBgRatio;
         public ImGuiMouseCursor MouseCursor;
         public byte DragDropActive;
@@ -188,36 +192,42 @@ namespace ImGuiNET
         public uint DragDropHoldJustPressedId;
         public ImVector DragDropPayloadBufHeap;
         public fixed byte DragDropPayloadBufLocal[16];
+        public int ClipperTempDataStacked;
+        public ImVector ClipperTempData;
         public ImGuiTable* CurrentTable;
+        public int TablesTempDataStacked;
+        public ImVector TablesTempData;
         public ImPool_ImGuiTable Tables;
-        public ImVector CurrentTableStack;
         public ImVector TablesLastTimeActive;
         public ImVector DrawChannelsTempMergeBuffer;
         public ImGuiTabBar* CurrentTabBar;
         public ImPool_ImGuiTabBar TabBars;
         public ImVector CurrentTabBarStack;
         public ImVector ShrinkWidthBuffer;
-        public ImVec2 LastValidMousePos;
+        public Vector2 MouseLastValidPos;
         public ImGuiInputTextState InputTextState;
         public ImFont InputTextPasswordFont;
         public uint TempInputId;
         public ImGuiColorEditFlags ColorEditOptions;
         public float ColorEditLastHue;
         public float ColorEditLastSat;
-        public fixed float ColorEditLastColor[3];
-        public ImVec4 ColorPickerRef;
+        public uint ColorEditLastColor;
+        public Vector4 ColorPickerRef;
+        public ImGuiComboPreviewData ComboPreviewData;
         public float SliderCurrentAccum;
         public byte SliderCurrentAccumDirty;
         public byte DragCurrentAccumDirty;
         public float DragCurrentAccum;
         public float DragSpeedDefaultRatio;
         public float ScrollbarClickDeltaToGrabCenter;
-        public int TooltipOverrideCount;
+        public float DisabledAlphaBackup;
+        public short DisabledStackSize;
+        public short TooltipOverrideCount;
         public float TooltipSlowDelay;
         public ImVector ClipboardHandlerData;
         public ImVector MenusIdSubmittedThisFrame;
-        public ImVec2 PlatformImePos;
-        public ImVec2 PlatformImeLastPos;
+        public Vector2 PlatformImePos;
+        public Vector2 PlatformImeLastPos;
         public ImGuiViewportP* PlatformImePosViewport;
         public byte PlatformLocaleDecimalPoint;
         public ImGuiDockContext DockContext;
@@ -231,7 +241,7 @@ namespace ImGuiNET
         public uint HookIdNext;
         public byte LogEnabled;
         public ImGuiLogType LogType;
-        public void* LogFile;
+        public IntPtr LogFile;
         public ImGuiTextBuffer LogBuffer;
         public byte* LogNextPrefix;
         public byte* LogNextSuffix;
@@ -243,8 +253,10 @@ namespace ImGuiNET
         public byte DebugItemPickerActive;
         public uint DebugItemPickerBreakId;
         public ImGuiMetricsConfig DebugMetricsConfig;
+        public ImGuiStackTool DebugStackTool;
         public fixed float FramerateSecPerFrame[120];
         public int FramerateSecPerFrameIdx;
+        public int FramerateSecPerFrameCount;
         public float FramerateSecPerFrameAccum;
         public int WantCaptureMouseNextFrame;
         public int WantCaptureKeyboardNextFrame;
@@ -280,14 +292,14 @@ namespace ImGuiNET
         public ref bool WithinEndChild => ref Unsafe.AsRef<bool>(&NativePtr->WithinEndChild);
         public ref bool GcCompactAll => ref Unsafe.AsRef<bool>(&NativePtr->GcCompactAll);
         public ref bool TestEngineHookItems => ref Unsafe.AsRef<bool>(&NativePtr->TestEngineHookItems);
-        public ref uint TestEngineHookIdInfo => ref Unsafe.AsRef<uint>(&NativePtr->TestEngineHookIdInfo);
         public IntPtr TestEngine { get => (IntPtr)NativePtr->TestEngine; set => NativePtr->TestEngine = (void*)value; }
         public ImVector<ImGuiWindowPtr> Windows => new ImVector<ImGuiWindowPtr>(NativePtr->Windows);
         public ImVector<ImGuiWindowPtr> WindowsFocusOrder => new ImVector<ImGuiWindowPtr>(NativePtr->WindowsFocusOrder);
         public ImVector<ImGuiWindowPtr> WindowsTempSortBuffer => new ImVector<ImGuiWindowPtr>(NativePtr->WindowsTempSortBuffer);
-        public ImVector<ImGuiWindowPtr> CurrentWindowStack => new ImVector<ImGuiWindowPtr>(NativePtr->CurrentWindowStack);
+        public ImPtrVector<ImGuiWindowStackDataPtr> CurrentWindowStack => new ImPtrVector<ImGuiWindowStackDataPtr>(NativePtr->CurrentWindowStack, Unsafe.SizeOf<ImGuiWindowStackData>());
         public ref ImGuiStorage WindowsById => ref Unsafe.AsRef<ImGuiStorage>(&NativePtr->WindowsById);
         public ref int WindowsActiveCount => ref Unsafe.AsRef<int>(&NativePtr->WindowsActiveCount);
+        public ref Vector2 WindowsHoverPadding => ref Unsafe.AsRef<Vector2>(&NativePtr->WindowsHoverPadding);
         public ImGuiWindowPtr CurrentWindow => new ImGuiWindowPtr(NativePtr->CurrentWindow);
         public ImGuiWindowPtr HoveredWindow => new ImGuiWindowPtr(NativePtr->HoveredWindow);
         public ImGuiWindowPtr HoveredWindowUnderMovingWindow => new ImGuiWindowPtr(NativePtr->HoveredWindowUnderMovingWindow);
@@ -296,6 +308,7 @@ namespace ImGuiNET
         public ImGuiWindowPtr WheelingWindow => new ImGuiWindowPtr(NativePtr->WheelingWindow);
         public ref Vector2 WheelingWindowRefMousePos => ref Unsafe.AsRef<Vector2>(&NativePtr->WheelingWindowRefMousePos);
         public ref float WheelingWindowTimer => ref Unsafe.AsRef<float>(&NativePtr->WheelingWindowTimer);
+        public ref uint DebugHookIdInfo => ref Unsafe.AsRef<uint>(&NativePtr->DebugHookIdInfo);
         public ref uint HoveredId => ref Unsafe.AsRef<uint>(&NativePtr->HoveredId);
         public ref uint HoveredIdPreviousFrame => ref Unsafe.AsRef<uint>(&NativePtr->HoveredIdPreviousFrame);
         public ref bool HoveredIdAllowOverlap => ref Unsafe.AsRef<bool>(&NativePtr->HoveredIdAllowOverlap);
@@ -327,16 +340,19 @@ namespace ImGuiNET
         public ImGuiWindowPtr ActiveIdPreviousFrameWindow => new ImGuiWindowPtr(NativePtr->ActiveIdPreviousFrameWindow);
         public ref uint LastActiveId => ref Unsafe.AsRef<uint>(&NativePtr->LastActiveId);
         public ref float LastActiveIdTimer => ref Unsafe.AsRef<float>(&NativePtr->LastActiveIdTimer);
-        public ref ImGuiNextWindowData NextWindowData => ref Unsafe.AsRef<ImGuiNextWindowData>(&NativePtr->NextWindowData);
+        public ref ImGuiItemFlags CurrentItemFlags => ref Unsafe.AsRef<ImGuiItemFlags>(&NativePtr->CurrentItemFlags);
         public ref ImGuiNextItemData NextItemData => ref Unsafe.AsRef<ImGuiNextItemData>(&NativePtr->NextItemData);
+        public ref ImGuiLastItemData LastItemData => ref Unsafe.AsRef<ImGuiLastItemData>(&NativePtr->LastItemData);
+        public ref ImGuiNextWindowData NextWindowData => ref Unsafe.AsRef<ImGuiNextWindowData>(&NativePtr->NextWindowData);
         public ImPtrVector<ImGuiColorModPtr> ColorStack => new ImPtrVector<ImGuiColorModPtr>(NativePtr->ColorStack, Unsafe.SizeOf<ImGuiColorMod>());
         public ImPtrVector<ImGuiStyleModPtr> StyleVarStack => new ImPtrVector<ImGuiStyleModPtr>(NativePtr->StyleVarStack, Unsafe.SizeOf<ImGuiStyleMod>());
         public ImVector<ImFontPtr> FontStack => new ImVector<ImFontPtr>(NativePtr->FontStack);
         public ImVector<uint> FocusScopeStack => new ImVector<uint>(NativePtr->FocusScopeStack);
-        public ImPtrVector<ImVector_ImGuiItemFlags> ItemFlagsStack => new ImPtrVector<ImVector_ImGuiItemFlags>(NativePtr->ItemFlagsStack, Unsafe.SizeOf<ImGuiItemFlags>());
+        public ImPtrVector<ImGuiItemFlagsPtr> ItemFlagsStack => new ImPtrVector<ImGuiItemFlagsPtr>(NativePtr->ItemFlagsStack, Unsafe.SizeOf<ImGuiItemFlags>());
         public ImPtrVector<ImGuiGroupDataPtr> GroupStack => new ImPtrVector<ImGuiGroupDataPtr>(NativePtr->GroupStack, Unsafe.SizeOf<ImGuiGroupData>());
         public ImPtrVector<ImGuiPopupDataPtr> OpenPopupStack => new ImPtrVector<ImGuiPopupDataPtr>(NativePtr->OpenPopupStack, Unsafe.SizeOf<ImGuiPopupData>());
         public ImPtrVector<ImGuiPopupDataPtr> BeginPopupStack => new ImPtrVector<ImGuiPopupDataPtr>(NativePtr->BeginPopupStack, Unsafe.SizeOf<ImGuiPopupData>());
+        public ref int BeginMenuCount => ref Unsafe.AsRef<int>(&NativePtr->BeginMenuCount);
         public ImVector<ImGuiViewportPPtr> Viewports => new ImVector<ImGuiViewportPPtr>(NativePtr->Viewports);
         public ref float CurrentDpiScale => ref Unsafe.AsRef<float>(&NativePtr->CurrentDpiScale);
         public ImGuiViewportPPtr CurrentViewport => new ImGuiViewportPPtr(NativePtr->CurrentViewport);
@@ -351,17 +367,15 @@ namespace ImGuiNET
         public ref uint NavActivateId => ref Unsafe.AsRef<uint>(&NativePtr->NavActivateId);
         public ref uint NavActivateDownId => ref Unsafe.AsRef<uint>(&NativePtr->NavActivateDownId);
         public ref uint NavActivatePressedId => ref Unsafe.AsRef<uint>(&NativePtr->NavActivatePressedId);
-        public ref uint NavInputId => ref Unsafe.AsRef<uint>(&NativePtr->NavInputId);
-        public ref uint NavJustTabbedId => ref Unsafe.AsRef<uint>(&NativePtr->NavJustTabbedId);
+        public ref uint NavActivateInputId => ref Unsafe.AsRef<uint>(&NativePtr->NavActivateInputId);
+        public ref ImGuiActivateFlags NavActivateFlags => ref Unsafe.AsRef<ImGuiActivateFlags>(&NativePtr->NavActivateFlags);
         public ref uint NavJustMovedToId => ref Unsafe.AsRef<uint>(&NativePtr->NavJustMovedToId);
         public ref uint NavJustMovedToFocusScopeId => ref Unsafe.AsRef<uint>(&NativePtr->NavJustMovedToFocusScopeId);
         public ref ImGuiKeyModFlags NavJustMovedToKeyMods => ref Unsafe.AsRef<ImGuiKeyModFlags>(&NativePtr->NavJustMovedToKeyMods);
         public ref uint NavNextActivateId => ref Unsafe.AsRef<uint>(&NativePtr->NavNextActivateId);
+        public ref ImGuiActivateFlags NavNextActivateFlags => ref Unsafe.AsRef<ImGuiActivateFlags>(&NativePtr->NavNextActivateFlags);
         public ref ImGuiInputSource NavInputSource => ref Unsafe.AsRef<ImGuiInputSource>(&NativePtr->NavInputSource);
-        public ref ImRect NavScoringRect => ref Unsafe.AsRef<ImRect>(&NativePtr->NavScoringRect);
-        public ref int NavScoringCount => ref Unsafe.AsRef<int>(&NativePtr->NavScoringCount);
         public ref ImGuiNavLayer NavLayer => ref Unsafe.AsRef<ImGuiNavLayer>(&NativePtr->NavLayer);
-        public ref int NavIdTabCounter => ref Unsafe.AsRef<int>(&NativePtr->NavIdTabCounter);
         public ref bool NavIdIsAlive => ref Unsafe.AsRef<bool>(&NativePtr->NavIdIsAlive);
         public ref bool NavMousePosDirty => ref Unsafe.AsRef<bool>(&NativePtr->NavMousePosDirty);
         public ref bool NavDisableHighlight => ref Unsafe.AsRef<bool>(&NativePtr->NavDisableHighlight);
@@ -371,31 +385,30 @@ namespace ImGuiNET
         public ref bool NavInitRequestFromMove => ref Unsafe.AsRef<bool>(&NativePtr->NavInitRequestFromMove);
         public ref uint NavInitResultId => ref Unsafe.AsRef<uint>(&NativePtr->NavInitResultId);
         public ref ImRect NavInitResultRectRel => ref Unsafe.AsRef<ImRect>(&NativePtr->NavInitResultRectRel);
-        public ref bool NavMoveRequest => ref Unsafe.AsRef<bool>(&NativePtr->NavMoveRequest);
-        public ref ImGuiNavMoveFlags NavMoveRequestFlags => ref Unsafe.AsRef<ImGuiNavMoveFlags>(&NativePtr->NavMoveRequestFlags);
-        public ref ImGuiNavForward NavMoveRequestForward => ref Unsafe.AsRef<ImGuiNavForward>(&NativePtr->NavMoveRequestForward);
-        public ref ImGuiKeyModFlags NavMoveRequestKeyMods => ref Unsafe.AsRef<ImGuiKeyModFlags>(&NativePtr->NavMoveRequestKeyMods);
+        public ref bool NavMoveSubmitted => ref Unsafe.AsRef<bool>(&NativePtr->NavMoveSubmitted);
+        public ref bool NavMoveScoringItems => ref Unsafe.AsRef<bool>(&NativePtr->NavMoveScoringItems);
+        public ref bool NavMoveForwardToNextFrame => ref Unsafe.AsRef<bool>(&NativePtr->NavMoveForwardToNextFrame);
+        public ref ImGuiNavMoveFlags NavMoveFlags => ref Unsafe.AsRef<ImGuiNavMoveFlags>(&NativePtr->NavMoveFlags);
+        public ref ImGuiScrollFlags NavMoveScrollFlags => ref Unsafe.AsRef<ImGuiScrollFlags>(&NativePtr->NavMoveScrollFlags);
+        public ref ImGuiKeyModFlags NavMoveKeyMods => ref Unsafe.AsRef<ImGuiKeyModFlags>(&NativePtr->NavMoveKeyMods);
         public ref ImGuiDir NavMoveDir => ref Unsafe.AsRef<ImGuiDir>(&NativePtr->NavMoveDir);
-        public ref ImGuiDir NavMoveDirLast => ref Unsafe.AsRef<ImGuiDir>(&NativePtr->NavMoveDirLast);
+        public ref ImGuiDir NavMoveDirForDebug => ref Unsafe.AsRef<ImGuiDir>(&NativePtr->NavMoveDirForDebug);
         public ref ImGuiDir NavMoveClipDir => ref Unsafe.AsRef<ImGuiDir>(&NativePtr->NavMoveClipDir);
-        public ref ImGuiNavMoveResult NavMoveResultLocal => ref Unsafe.AsRef<ImGuiNavMoveResult>(&NativePtr->NavMoveResultLocal);
-        public ref ImGuiNavMoveResult NavMoveResultLocalVisibleSet => ref Unsafe.AsRef<ImGuiNavMoveResult>(&NativePtr->NavMoveResultLocalVisibleSet);
-        public ref ImGuiNavMoveResult NavMoveResultOther => ref Unsafe.AsRef<ImGuiNavMoveResult>(&NativePtr->NavMoveResultOther);
-        public ImGuiWindowPtr NavWrapRequestWindow => new ImGuiWindowPtr(NativePtr->NavWrapRequestWindow);
-        public ref ImGuiNavMoveFlags NavWrapRequestFlags => ref Unsafe.AsRef<ImGuiNavMoveFlags>(&NativePtr->NavWrapRequestFlags);
+        public ref ImRect NavScoringRect => ref Unsafe.AsRef<ImRect>(&NativePtr->NavScoringRect);
+        public ref ImRect NavScoringNoClipRect => ref Unsafe.AsRef<ImRect>(&NativePtr->NavScoringNoClipRect);
+        public ref int NavScoringDebugCount => ref Unsafe.AsRef<int>(&NativePtr->NavScoringDebugCount);
+        public ref int NavTabbingDir => ref Unsafe.AsRef<int>(&NativePtr->NavTabbingDir);
+        public ref int NavTabbingCounter => ref Unsafe.AsRef<int>(&NativePtr->NavTabbingCounter);
+        public ref ImGuiNavItemData NavMoveResultLocal => ref Unsafe.AsRef<ImGuiNavItemData>(&NativePtr->NavMoveResultLocal);
+        public ref ImGuiNavItemData NavMoveResultLocalVisible => ref Unsafe.AsRef<ImGuiNavItemData>(&NativePtr->NavMoveResultLocalVisible);
+        public ref ImGuiNavItemData NavMoveResultOther => ref Unsafe.AsRef<ImGuiNavItemData>(&NativePtr->NavMoveResultOther);
+        public ref ImGuiNavItemData NavTabbingResultFirst => ref Unsafe.AsRef<ImGuiNavItemData>(&NativePtr->NavTabbingResultFirst);
         public ImGuiWindowPtr NavWindowingTarget => new ImGuiWindowPtr(NativePtr->NavWindowingTarget);
         public ImGuiWindowPtr NavWindowingTargetAnim => new ImGuiWindowPtr(NativePtr->NavWindowingTargetAnim);
         public ImGuiWindowPtr NavWindowingListWindow => new ImGuiWindowPtr(NativePtr->NavWindowingListWindow);
         public ref float NavWindowingTimer => ref Unsafe.AsRef<float>(&NativePtr->NavWindowingTimer);
         public ref float NavWindowingHighlightAlpha => ref Unsafe.AsRef<float>(&NativePtr->NavWindowingHighlightAlpha);
         public ref bool NavWindowingToggleLayer => ref Unsafe.AsRef<bool>(&NativePtr->NavWindowingToggleLayer);
-        public ImGuiWindowPtr TabFocusRequestCurrWindow => new ImGuiWindowPtr(NativePtr->TabFocusRequestCurrWindow);
-        public ImGuiWindowPtr TabFocusRequestNextWindow => new ImGuiWindowPtr(NativePtr->TabFocusRequestNextWindow);
-        public ref int TabFocusRequestCurrCounterRegular => ref Unsafe.AsRef<int>(&NativePtr->TabFocusRequestCurrCounterRegular);
-        public ref int TabFocusRequestCurrCounterTabStop => ref Unsafe.AsRef<int>(&NativePtr->TabFocusRequestCurrCounterTabStop);
-        public ref int TabFocusRequestNextCounterRegular => ref Unsafe.AsRef<int>(&NativePtr->TabFocusRequestNextCounterRegular);
-        public ref int TabFocusRequestNextCounterTabStop => ref Unsafe.AsRef<int>(&NativePtr->TabFocusRequestNextCounterTabStop);
-        public ref bool TabFocusPressed => ref Unsafe.AsRef<bool>(&NativePtr->TabFocusPressed);
         public ref float DimBgRatio => ref Unsafe.AsRef<float>(&NativePtr->DimBgRatio);
         public ref ImGuiMouseCursor MouseCursor => ref Unsafe.AsRef<ImGuiMouseCursor>(&NativePtr->MouseCursor);
         public ref bool DragDropActive => ref Unsafe.AsRef<bool>(&NativePtr->DragDropActive);
@@ -415,31 +428,37 @@ namespace ImGuiNET
         public ref uint DragDropHoldJustPressedId => ref Unsafe.AsRef<uint>(&NativePtr->DragDropHoldJustPressedId);
         public ImVector<byte> DragDropPayloadBufHeap => new ImVector<byte>(NativePtr->DragDropPayloadBufHeap);
         public RangeAccessor<byte> DragDropPayloadBufLocal => new RangeAccessor<byte>(NativePtr->DragDropPayloadBufLocal, 16);
+        public ref int ClipperTempDataStacked => ref Unsafe.AsRef<int>(&NativePtr->ClipperTempDataStacked);
+        public ImPtrVector<ImGuiListClipperDataPtr> ClipperTempData => new ImPtrVector<ImGuiListClipperDataPtr>(NativePtr->ClipperTempData, Unsafe.SizeOf<ImGuiListClipperData>());
         public ImGuiTablePtr CurrentTable => new ImGuiTablePtr(NativePtr->CurrentTable);
+        public ref int TablesTempDataStacked => ref Unsafe.AsRef<int>(&NativePtr->TablesTempDataStacked);
+        public ImPtrVector<ImGuiTableTempDataPtr> TablesTempData => new ImPtrVector<ImGuiTableTempDataPtr>(NativePtr->TablesTempData, Unsafe.SizeOf<ImGuiTableTempData>());
         public ref ImPool_ImGuiTable Tables => ref Unsafe.AsRef<ImPool_ImGuiTable>(&NativePtr->Tables);
-        public ImPtrVector<ImGuiPtrOrIndexPtr> CurrentTableStack => new ImPtrVector<ImGuiPtrOrIndexPtr>(NativePtr->CurrentTableStack, Unsafe.SizeOf<ImGuiPtrOrIndex>());
         public ImVector<float> TablesLastTimeActive => new ImVector<float>(NativePtr->TablesLastTimeActive);
         public ImPtrVector<ImDrawChannelPtr> DrawChannelsTempMergeBuffer => new ImPtrVector<ImDrawChannelPtr>(NativePtr->DrawChannelsTempMergeBuffer, Unsafe.SizeOf<ImDrawChannel>());
         public ImGuiTabBarPtr CurrentTabBar => new ImGuiTabBarPtr(NativePtr->CurrentTabBar);
         public ref ImPool_ImGuiTabBar TabBars => ref Unsafe.AsRef<ImPool_ImGuiTabBar>(&NativePtr->TabBars);
         public ImPtrVector<ImGuiPtrOrIndexPtr> CurrentTabBarStack => new ImPtrVector<ImGuiPtrOrIndexPtr>(NativePtr->CurrentTabBarStack, Unsafe.SizeOf<ImGuiPtrOrIndex>());
         public ImPtrVector<ImGuiShrinkWidthItemPtr> ShrinkWidthBuffer => new ImPtrVector<ImGuiShrinkWidthItemPtr>(NativePtr->ShrinkWidthBuffer, Unsafe.SizeOf<ImGuiShrinkWidthItem>());
-        public ref Vector2 LastValidMousePos => ref Unsafe.AsRef<Vector2>(&NativePtr->LastValidMousePos);
+        public ref Vector2 MouseLastValidPos => ref Unsafe.AsRef<Vector2>(&NativePtr->MouseLastValidPos);
         public ref ImGuiInputTextState InputTextState => ref Unsafe.AsRef<ImGuiInputTextState>(&NativePtr->InputTextState);
         public ref ImFont InputTextPasswordFont => ref Unsafe.AsRef<ImFont>(&NativePtr->InputTextPasswordFont);
         public ref uint TempInputId => ref Unsafe.AsRef<uint>(&NativePtr->TempInputId);
         public ref ImGuiColorEditFlags ColorEditOptions => ref Unsafe.AsRef<ImGuiColorEditFlags>(&NativePtr->ColorEditOptions);
         public ref float ColorEditLastHue => ref Unsafe.AsRef<float>(&NativePtr->ColorEditLastHue);
         public ref float ColorEditLastSat => ref Unsafe.AsRef<float>(&NativePtr->ColorEditLastSat);
-        public RangeAccessor<float> ColorEditLastColor => new RangeAccessor<float>(NativePtr->ColorEditLastColor, 3);
+        public ref uint ColorEditLastColor => ref Unsafe.AsRef<uint>(&NativePtr->ColorEditLastColor);
         public ref Vector4 ColorPickerRef => ref Unsafe.AsRef<Vector4>(&NativePtr->ColorPickerRef);
+        public ref ImGuiComboPreviewData ComboPreviewData => ref Unsafe.AsRef<ImGuiComboPreviewData>(&NativePtr->ComboPreviewData);
         public ref float SliderCurrentAccum => ref Unsafe.AsRef<float>(&NativePtr->SliderCurrentAccum);
         public ref bool SliderCurrentAccumDirty => ref Unsafe.AsRef<bool>(&NativePtr->SliderCurrentAccumDirty);
         public ref bool DragCurrentAccumDirty => ref Unsafe.AsRef<bool>(&NativePtr->DragCurrentAccumDirty);
         public ref float DragCurrentAccum => ref Unsafe.AsRef<float>(&NativePtr->DragCurrentAccum);
         public ref float DragSpeedDefaultRatio => ref Unsafe.AsRef<float>(&NativePtr->DragSpeedDefaultRatio);
         public ref float ScrollbarClickDeltaToGrabCenter => ref Unsafe.AsRef<float>(&NativePtr->ScrollbarClickDeltaToGrabCenter);
-        public ref int TooltipOverrideCount => ref Unsafe.AsRef<int>(&NativePtr->TooltipOverrideCount);
+        public ref float DisabledAlphaBackup => ref Unsafe.AsRef<float>(&NativePtr->DisabledAlphaBackup);
+        public ref short DisabledStackSize => ref Unsafe.AsRef<short>(&NativePtr->DisabledStackSize);
+        public ref short TooltipOverrideCount => ref Unsafe.AsRef<short>(&NativePtr->TooltipOverrideCount);
         public ref float TooltipSlowDelay => ref Unsafe.AsRef<float>(&NativePtr->TooltipSlowDelay);
         public ImVector<byte> ClipboardHandlerData => new ImVector<byte>(NativePtr->ClipboardHandlerData);
         public ImVector<uint> MenusIdSubmittedThisFrame => new ImVector<uint>(NativePtr->MenusIdSubmittedThisFrame);
@@ -470,8 +489,10 @@ namespace ImGuiNET
         public ref bool DebugItemPickerActive => ref Unsafe.AsRef<bool>(&NativePtr->DebugItemPickerActive);
         public ref uint DebugItemPickerBreakId => ref Unsafe.AsRef<uint>(&NativePtr->DebugItemPickerBreakId);
         public ref ImGuiMetricsConfig DebugMetricsConfig => ref Unsafe.AsRef<ImGuiMetricsConfig>(&NativePtr->DebugMetricsConfig);
+        public ref ImGuiStackTool DebugStackTool => ref Unsafe.AsRef<ImGuiStackTool>(&NativePtr->DebugStackTool);
         public RangeAccessor<float> FramerateSecPerFrame => new RangeAccessor<float>(NativePtr->FramerateSecPerFrame, 120);
         public ref int FramerateSecPerFrameIdx => ref Unsafe.AsRef<int>(&NativePtr->FramerateSecPerFrameIdx);
+        public ref int FramerateSecPerFrameCount => ref Unsafe.AsRef<int>(&NativePtr->FramerateSecPerFrameCount);
         public ref float FramerateSecPerFrameAccum => ref Unsafe.AsRef<float>(&NativePtr->FramerateSecPerFrameAccum);
         public ref int WantCaptureMouseNextFrame => ref Unsafe.AsRef<int>(&NativePtr->WantCaptureMouseNextFrame);
         public ref int WantCaptureKeyboardNextFrame => ref Unsafe.AsRef<int>(&NativePtr->WantCaptureKeyboardNextFrame);

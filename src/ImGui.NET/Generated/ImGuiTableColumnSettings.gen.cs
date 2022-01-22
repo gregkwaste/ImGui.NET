@@ -3,7 +3,7 @@ using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Text;
 
-using ImGuiTableColumnIdx = System.Int32;
+using ImGuiTableColumnIdx = System.Char;
 
 namespace ImGuiNET
 {

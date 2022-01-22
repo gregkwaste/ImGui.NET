@@ -11,13 +11,12 @@ namespace ImGuiNET
     {
         [FieldOffset(0)]
         public ImGuiStyleVar VarIdx;
-
-        [FieldOffset(4)] 
+        [FieldOffset(4)]
         public fixed int BackupInt[2];
-        [FieldOffset(4)] 
+        [FieldOffset(4)]
         public fixed float BackupFloat[2];
-        
     }
+
     public unsafe partial struct ImGuiStyleModPtr
     {
         public ImGuiStyleMod* NativePtr { get; }
@@ -27,7 +26,7 @@ namespace ImGuiNET
         public static implicit operator ImGuiStyleMod* (ImGuiStyleModPtr wrappedPtr) => wrappedPtr.NativePtr;
         public static implicit operator ImGuiStyleModPtr(IntPtr nativePtr) => new ImGuiStyleModPtr(nativePtr);
         public ref ImGuiStyleVar VarIdx => ref Unsafe.AsRef<ImGuiStyleVar>(&NativePtr->VarIdx);
-        //gregk seriously no idea how to handle that
+        //gregkwaste: Still have no idea how to handle this
         //public ref union { int BackupInt[2]; float BackupFloat[2];}  => ref Unsafe.AsRef<union { int BackupInt[2]; float BackupFloat[2];}>(&NativePtr->);
         public void Destroy()
         {

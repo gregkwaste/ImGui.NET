@@ -32,11 +32,13 @@ namespace ImGuiNET
         public ref ImRect RectRel => ref Unsafe.AsRef<ImRect>(&NativePtr->RectRel);
         public void Clear()
         {
-            ImGuiNative.ImGuiNavMoveResult_Clear((ImGuiNavMoveResult*)(NativePtr));
+            throw new Exception("NOT IMPLEMENTED");
+            //ImGuiNative.ImGuiNavMoveResult_Clear((ImGuiNavMoveResult*)(NativePtr));
         }
         public void Destroy()
         {
-            ImGuiNative.ImGuiNavMoveResult_destroy((ImGuiNavMoveResult*)(NativePtr));
+            throw new Exception("NOT IMPLEMENTED");
+            //ImGuiNative.ImGuiNavMoveResult_destroy((ImGuiNavMoveResult*)(NativePtr));
         }
     }
 }

@@ -7,21 +7,24 @@ using ImPoolIdx = System.Int32;
 
 namespace ImGuiNET
 {
-    
+
+
     public unsafe partial struct ImVector_ImGuiTabBar
     {
         public int Size;
         public int Capacity;
         public ImGuiTabBar* Data;
     }
-    
+
     public unsafe partial struct ImPool_ImGuiTabBar
     {
         public ImVector_ImGuiTabBar Buf;
         public ImGuiStorage Map;
         public ImPoolIdx FreeIdx;
     }
-    
+
+
+
     public unsafe partial struct ImGuiTabBar
     {
         public ImVector Tabs;
@@ -44,7 +47,7 @@ namespace ImGuiNET
         public float ScrollingRectMinX;
         public float ScrollingRectMaxX;
         public uint ReorderRequestTabId;
-        public sbyte ReorderRequestDir;
+        public short ReorderRequestOffset;
         public sbyte BeginCount;
         public byte WantLayout;
         public byte VisibleTabWasSubmitted;
@@ -84,7 +87,7 @@ namespace ImGuiNET
         public ref float ScrollingRectMinX => ref Unsafe.AsRef<float>(&NativePtr->ScrollingRectMinX);
         public ref float ScrollingRectMaxX => ref Unsafe.AsRef<float>(&NativePtr->ScrollingRectMaxX);
         public ref uint ReorderRequestTabId => ref Unsafe.AsRef<uint>(&NativePtr->ReorderRequestTabId);
-        public ref sbyte ReorderRequestDir => ref Unsafe.AsRef<sbyte>(&NativePtr->ReorderRequestDir);
+        public ref short ReorderRequestOffset => ref Unsafe.AsRef<short>(&NativePtr->ReorderRequestOffset);
         public ref sbyte BeginCount => ref Unsafe.AsRef<sbyte>(&NativePtr->BeginCount);
         public ref bool WantLayout => ref Unsafe.AsRef<bool>(&NativePtr->WantLayout);
         public ref bool VisibleTabWasSubmitted => ref Unsafe.AsRef<bool>(&NativePtr->VisibleTabWasSubmitted);

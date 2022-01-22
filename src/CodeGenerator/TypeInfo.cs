@@ -51,6 +51,7 @@ namespace CodeGenerator
             { "float&", "float*" },
             { "ImVec2[2]", "Vector2*" },
             { "char* []", "byte**" },
+            { "char[5]", "sbyte*" },
             { "unsigned char[256]", "byte*"},
         };
         

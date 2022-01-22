@@ -7,8 +7,8 @@ namespace ImGuiNET
 {
     public unsafe partial struct ImRect
     {
-        public ImVec2 Min;
-        public ImVec2 Max;
+        public Vector2 Min;
+        public Vector2 Max;
     }
     public unsafe partial struct ImRectPtr
     {
@@ -22,11 +22,11 @@ namespace ImGuiNET
         public ref Vector2 Max => ref Unsafe.AsRef<Vector2>(&NativePtr->Max);
         public void Add(Vector2 p)
         {
-            ImGuiNative.ImRect_AddVec2((ImRect*)(NativePtr), p);
+            ImGuiNative.ImRect_Add_Vec2((ImRect*)(NativePtr), p);
         }
         public void Add(ImRect r)
         {
-            ImGuiNative.ImRect_AddRect((ImRect*)(NativePtr), r);
+            ImGuiNative.ImRect_Add_Rect((ImRect*)(NativePtr), r);
         }
         public void ClipWith(ImRect r)
         {
@@ -38,12 +38,12 @@ namespace ImGuiNET
         }
         public bool Contains(Vector2 p)
         {
-            byte ret = ImGuiNative.ImRect_ContainsVec2((ImRect*)(NativePtr), p);
+            byte ret = ImGuiNative.ImRect_Contains_Vec2((ImRect*)(NativePtr), p);
             return ret != 0;
         }
         public bool Contains(ImRect r)
         {
-            byte ret = ImGuiNative.ImRect_ContainsRect((ImRect*)(NativePtr), r);
+            byte ret = ImGuiNative.ImRect_Contains_Rect((ImRect*)(NativePtr), r);
             return ret != 0;
         }
         public void Destroy()
@@ -52,11 +52,11 @@ namespace ImGuiNET
         }
         public void Expand(float amount)
         {
-            ImGuiNative.ImRect_ExpandFloat((ImRect*)(NativePtr), amount);
+            ImGuiNative.ImRect_Expand_Float((ImRect*)(NativePtr), amount);
         }
         public void Expand(Vector2 amount)
         {
-            ImGuiNative.ImRect_ExpandVec2((ImRect*)(NativePtr), amount);
+            ImGuiNative.ImRect_Expand_Vec2((ImRect*)(NativePtr), amount);
         }
         public void Floor()
         {

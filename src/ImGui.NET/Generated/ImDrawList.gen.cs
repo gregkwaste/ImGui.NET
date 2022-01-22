@@ -5,13 +5,6 @@ using System.Text;
 
 namespace ImGuiNET
 {
-    public unsafe partial struct ImVector_ImDrawList
-    {
-        public int Size;
-        public int Capacity;
-        public ImDrawList* Data;
-    }
-    
     public unsafe partial struct ImDrawList
     {
         public ImVector CmdBuffer;

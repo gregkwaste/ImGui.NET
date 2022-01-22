@@ -15,14 +15,16 @@ namespace ImGuiNET
     {
         public ImGuiTableColumn* Data;
         public ImGuiTableColumn* DataEnd;
-    
+
     }
-    
+
     public unsafe partial struct ImSpan_ImGuiTableColumnIdx
     {
         public ImGuiTableColumnIdx* Data;
         public ImGuiTableColumnIdx* DataEnd;
+
     }
+
     
     public unsafe partial struct ImVector_ImGuiTable
     {
@@ -30,19 +32,21 @@ namespace ImGuiNET
         public int Capacity;
         public ImGuiTable* Data;
     }
-    
+
+
     public unsafe partial struct ImPool_ImGuiTable
     {
         public ImVector_ImGuiTable Buf;
         public ImGuiStorage Map;
         public ImPoolIdx FreeIdx;
     }
-    
+
     public unsafe partial struct ImGuiTable
     {
         public uint ID;
         public ImGuiTableFlags Flags;
         public void* RawData;
+        public ImGuiTableTempData* TempData;
         public ImSpan_ImGuiTableColumn Columns;
         public ImSpan_ImGuiTableColumnIdx DisplayOrderToIndex;
         public ImSpan_ImGuiTableCellData RowCellData;
@@ -94,20 +98,11 @@ namespace ImGuiNET
         public ImRect Bg0ClipRectForDrawCmd;
         public ImRect Bg2ClipRectForDrawCmd;
         public ImRect HostClipRect;
-        public ImRect HostBackupWorkRect;
-        public ImRect HostBackupParentWorkRect;
         public ImRect HostBackupInnerClipRect;
-        public Vector2 HostBackupPrevLineSize;
-        public Vector2 HostBackupCurrLineSize;
-        public Vector2 HostBackupCursorMaxPos;
-        public Vector2 UserOuterSize;
-        public ImVec1 HostBackupColumnsOffset;
-        public float HostBackupItemWidth;
-        public int HostBackupItemWidthStackSize;
         public ImGuiWindow* OuterWindow;
         public ImGuiWindow* InnerWindow;
         public ImGuiTextBuffer ColumnsNames;
-        public ImDrawListSplitter DrawSplitter;
+        public ImDrawListSplitter* DrawSplitter;
         public ImGuiTableColumnSortSpecs SortSpecsSingle;
         public ImVector SortSpecsMulti;
         public ImGuiTableSortSpecs SortSpecs;
@@ -163,6 +158,7 @@ namespace ImGuiNET
         public ref uint ID => ref Unsafe.AsRef<uint>(&NativePtr->ID);
         public ref ImGuiTableFlags Flags => ref Unsafe.AsRef<ImGuiTableFlags>(&NativePtr->Flags);
         public IntPtr RawData { get => (IntPtr)NativePtr->RawData; set => NativePtr->RawData = (void*)value; }
+        public ImGuiTableTempDataPtr TempData => new ImGuiTableTempDataPtr(NativePtr->TempData);
         public ref ImSpan_ImGuiTableColumn Columns => ref Unsafe.AsRef<ImSpan_ImGuiTableColumn>(&NativePtr->Columns);
         public ref ImSpan_ImGuiTableColumnIdx DisplayOrderToIndex => ref Unsafe.AsRef<ImSpan_ImGuiTableColumnIdx>(&NativePtr->DisplayOrderToIndex);
         public ref ImSpan_ImGuiTableCellData RowCellData => ref Unsafe.AsRef<ImSpan_ImGuiTableCellData>(&NativePtr->RowCellData);
@@ -214,20 +210,11 @@ namespace ImGuiNET
         public ref ImRect Bg0ClipRectForDrawCmd => ref Unsafe.AsRef<ImRect>(&NativePtr->Bg0ClipRectForDrawCmd);
         public ref ImRect Bg2ClipRectForDrawCmd => ref Unsafe.AsRef<ImRect>(&NativePtr->Bg2ClipRectForDrawCmd);
         public ref ImRect HostClipRect => ref Unsafe.AsRef<ImRect>(&NativePtr->HostClipRect);
-        public ref ImRect HostBackupWorkRect => ref Unsafe.AsRef<ImRect>(&NativePtr->HostBackupWorkRect);
-        public ref ImRect HostBackupParentWorkRect => ref Unsafe.AsRef<ImRect>(&NativePtr->HostBackupParentWorkRect);
         public ref ImRect HostBackupInnerClipRect => ref Unsafe.AsRef<ImRect>(&NativePtr->HostBackupInnerClipRect);
-        public ref Vector2 HostBackupPrevLineSize => ref Unsafe.AsRef<Vector2>(&NativePtr->HostBackupPrevLineSize);
-        public ref Vector2 HostBackupCurrLineSize => ref Unsafe.AsRef<Vector2>(&NativePtr->HostBackupCurrLineSize);
-        public ref Vector2 HostBackupCursorMaxPos => ref Unsafe.AsRef<Vector2>(&NativePtr->HostBackupCursorMaxPos);
-        public ref Vector2 UserOuterSize => ref Unsafe.AsRef<Vector2>(&NativePtr->UserOuterSize);
-        public ref ImVec1 HostBackupColumnsOffset => ref Unsafe.AsRef<ImVec1>(&NativePtr->HostBackupColumnsOffset);
-        public ref float HostBackupItemWidth => ref Unsafe.AsRef<float>(&NativePtr->HostBackupItemWidth);
-        public ref int HostBackupItemWidthStackSize => ref Unsafe.AsRef<int>(&NativePtr->HostBackupItemWidthStackSize);
         public ImGuiWindowPtr OuterWindow => new ImGuiWindowPtr(NativePtr->OuterWindow);
         public ImGuiWindowPtr InnerWindow => new ImGuiWindowPtr(NativePtr->InnerWindow);
         public ref ImGuiTextBuffer ColumnsNames => ref Unsafe.AsRef<ImGuiTextBuffer>(&NativePtr->ColumnsNames);
-        public ref ImDrawListSplitter DrawSplitter => ref Unsafe.AsRef<ImDrawListSplitter>(&NativePtr->DrawSplitter);
+        public ImDrawListSplitterPtr DrawSplitter => new ImDrawListSplitterPtr(NativePtr->DrawSplitter);
         public ref ImGuiTableColumnSortSpecs SortSpecsSingle => ref Unsafe.AsRef<ImGuiTableColumnSortSpecs>(&NativePtr->SortSpecsSingle);
         public ImPtrVector<ImGuiTableColumnSortSpecsPtr> SortSpecsMulti => new ImPtrVector<ImGuiTableColumnSortSpecsPtr>(NativePtr->SortSpecsMulti, Unsafe.SizeOf<ImGuiTableColumnSortSpecs>());
         public ref ImGuiTableSortSpecs SortSpecs => ref Unsafe.AsRef<ImGuiTableSortSpecs>(&NativePtr->SortSpecs);

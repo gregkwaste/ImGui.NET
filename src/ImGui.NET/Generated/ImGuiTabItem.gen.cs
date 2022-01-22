@@ -15,7 +15,7 @@ namespace ImGuiNET
         public float Offset;
         public float Width;
         public float ContentWidth;
-        public short NameOffset;
+        public int NameOffset;
         public short BeginOrder;
         public short IndexDuringLayout;
         public byte WantClose;
@@ -36,7 +36,7 @@ namespace ImGuiNET
         public ref float Offset => ref Unsafe.AsRef<float>(&NativePtr->Offset);
         public ref float Width => ref Unsafe.AsRef<float>(&NativePtr->Width);
         public ref float ContentWidth => ref Unsafe.AsRef<float>(&NativePtr->ContentWidth);
-        public ref short NameOffset => ref Unsafe.AsRef<short>(&NativePtr->NameOffset);
+        public ref int NameOffset => ref Unsafe.AsRef<int>(&NativePtr->NameOffset);
         public ref short BeginOrder => ref Unsafe.AsRef<short>(&NativePtr->BeginOrder);
         public ref short IndexDuringLayout => ref Unsafe.AsRef<short>(&NativePtr->IndexDuringLayout);
         public ref bool WantClose => ref Unsafe.AsRef<bool>(&NativePtr->WantClose);

@@ -13,7 +13,6 @@ namespace ImGuiNET
         ImGuiButtonFlags_FlattenChildren = 2048,
         ImGuiButtonFlags_AllowItemOverlap = 4096,
         ImGuiButtonFlags_DontClosePopups = 8192,
-        ImGuiButtonFlags_Disabled = 16384,
         ImGuiButtonFlags_AlignTextBaseLine = 32768,
         ImGuiButtonFlags_NoKeyModifiers = 65536,
         ImGuiButtonFlags_NoHoldingActiveId = 131072,

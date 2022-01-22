@@ -12,10 +12,12 @@ namespace ImGuiNET
         SelectableDontClosePopup = 32,
         MixedValue = 64,
         ReadOnly = 128,
-        Default = 0,
+        Inputable = 256,
     }
-    
-    public unsafe partial struct ImVector_ImGuiItemFlags
+
+
+
+    public unsafe partial struct ImGuiItemFlagsPtr
     {
         public int Size;
         public int Capacity;

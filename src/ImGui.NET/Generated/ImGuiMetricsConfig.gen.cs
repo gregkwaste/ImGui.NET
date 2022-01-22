@@ -7,6 +7,7 @@ namespace ImGuiNET
 {
     public unsafe partial struct ImGuiMetricsConfig
     {
+        public byte ShowStackTool;
         public byte ShowWindowsRects;
         public byte ShowWindowsBeginOrder;
         public byte ShowTablesRects;
@@ -24,6 +25,7 @@ namespace ImGuiNET
         public static implicit operator ImGuiMetricsConfigPtr(ImGuiMetricsConfig* nativePtr) => new ImGuiMetricsConfigPtr(nativePtr);
         public static implicit operator ImGuiMetricsConfig* (ImGuiMetricsConfigPtr wrappedPtr) => wrappedPtr.NativePtr;
         public static implicit operator ImGuiMetricsConfigPtr(IntPtr nativePtr) => new ImGuiMetricsConfigPtr(nativePtr);
+        public ref bool ShowStackTool => ref Unsafe.AsRef<bool>(&NativePtr->ShowStackTool);
         public ref bool ShowWindowsRects => ref Unsafe.AsRef<bool>(&NativePtr->ShowWindowsRects);
         public ref bool ShowWindowsBeginOrder => ref Unsafe.AsRef<bool>(&NativePtr->ShowWindowsBeginOrder);
         public ref bool ShowTablesRects => ref Unsafe.AsRef<bool>(&NativePtr->ShowTablesRects);

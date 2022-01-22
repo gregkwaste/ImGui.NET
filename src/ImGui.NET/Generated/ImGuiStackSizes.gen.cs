@@ -13,7 +13,9 @@ namespace ImGuiNET
         public short SizeOfFontStack;
         public short SizeOfFocusScopeStack;
         public short SizeOfGroupStack;
+        public short SizeOfItemFlagsStack;
         public short SizeOfBeginPopupStack;
+        public short SizeOfDisabledStack;
     }
     public unsafe partial struct ImGuiStackSizesPtr
     {
@@ -29,7 +31,9 @@ namespace ImGuiNET
         public ref short SizeOfFontStack => ref Unsafe.AsRef<short>(&NativePtr->SizeOfFontStack);
         public ref short SizeOfFocusScopeStack => ref Unsafe.AsRef<short>(&NativePtr->SizeOfFocusScopeStack);
         public ref short SizeOfGroupStack => ref Unsafe.AsRef<short>(&NativePtr->SizeOfGroupStack);
+        public ref short SizeOfItemFlagsStack => ref Unsafe.AsRef<short>(&NativePtr->SizeOfItemFlagsStack);
         public ref short SizeOfBeginPopupStack => ref Unsafe.AsRef<short>(&NativePtr->SizeOfBeginPopupStack);
+        public ref short SizeOfDisabledStack => ref Unsafe.AsRef<short>(&NativePtr->SizeOfDisabledStack);
         public void CompareWithCurrentState()
         {
             ImGuiNative.ImGuiStackSizes_CompareWithCurrentState((ImGuiStackSizes*)(NativePtr));

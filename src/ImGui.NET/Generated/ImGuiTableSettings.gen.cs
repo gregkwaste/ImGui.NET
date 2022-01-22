@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 
 using ImGuiTableColumnIdx = System.Char;
-    
+
 namespace ImGuiNET
 {
     public unsafe partial struct ImGuiTableSettings
@@ -12,8 +12,8 @@ namespace ImGuiNET
         public uint ID;
         public ImGuiTableFlags SaveFlags;
         public float RefScale;
-        public char ColumnsCount;
-        public char ColumnsCountMax;
+        public ImGuiTableColumnIdx ColumnsCount;
+        public ImGuiTableColumnIdx ColumnsCountMax;
         public byte WantApply;
     }
     public unsafe partial struct ImGuiTableSettingsPtr
@@ -36,7 +36,7 @@ namespace ImGuiNET
         }
         public ImGuiTableColumnSettingsPtr GetColumnSettings()
         {
-            var ret = ImGuiNative.ImGuiTableSettings_GetColumnSettings((ImGuiTableSettings*)(NativePtr));
+            ImGuiTableColumnSettings* ret = ImGuiNative.ImGuiTableSettings_GetColumnSettings((ImGuiTableSettings*)(NativePtr));
             return new ImGuiTableColumnSettingsPtr(ret);
         }
     }

@@ -28,8 +28,8 @@ namespace ImGuiNET
         public Vector2 LastRendererSize;
         public Vector2 WorkOffsetMin;
         public Vector2 WorkOffsetMax;
-        public Vector2 CurrWorkOffsetMin;
-        public Vector2 CurrWorkOffsetMax;
+        public Vector2 BuildWorkOffsetMin;
+        public Vector2 BuildWorkOffsetMax;
     }
     public unsafe partial struct ImGuiViewportPPtr
     {
@@ -51,6 +51,7 @@ namespace ImGuiNET
         public ref bool PlatformWindowCreated => ref Unsafe.AsRef<bool>(&NativePtr->PlatformWindowCreated);
         public ImGuiWindowPtr Window => new ImGuiWindowPtr(NativePtr->Window);
         public RangeAccessor<int> DrawListsLastFrame => new RangeAccessor<int>(NativePtr->DrawListsLastFrame, 2);
+        //gregkwaste: Removed pointers from the range accessor. THis is probably SO WRONG...
         public RangeAccessor<ImDrawList> DrawLists => new RangeAccessor<ImDrawList>(&NativePtr->DrawLists_0, 2);
         public ref ImDrawData DrawDataP => ref Unsafe.AsRef<ImDrawData>(&NativePtr->DrawDataP);
         public ref ImDrawDataBuilder DrawDataBuilder => ref Unsafe.AsRef<ImDrawDataBuilder>(&NativePtr->DrawDataBuilder);
@@ -59,8 +60,20 @@ namespace ImGuiNET
         public ref Vector2 LastRendererSize => ref Unsafe.AsRef<Vector2>(&NativePtr->LastRendererSize);
         public ref Vector2 WorkOffsetMin => ref Unsafe.AsRef<Vector2>(&NativePtr->WorkOffsetMin);
         public ref Vector2 WorkOffsetMax => ref Unsafe.AsRef<Vector2>(&NativePtr->WorkOffsetMax);
-        public ref Vector2 CurrWorkOffsetMin => ref Unsafe.AsRef<Vector2>(&NativePtr->CurrWorkOffsetMin);
-        public ref Vector2 CurrWorkOffsetMax => ref Unsafe.AsRef<Vector2>(&NativePtr->CurrWorkOffsetMax);
+        public ref Vector2 BuildWorkOffsetMin => ref Unsafe.AsRef<Vector2>(&NativePtr->BuildWorkOffsetMin);
+        public ref Vector2 BuildWorkOffsetMax => ref Unsafe.AsRef<Vector2>(&NativePtr->BuildWorkOffsetMax);
+        public Vector2 CalcWorkRectPos(Vector2 off_min)
+        {
+            Vector2 __retval;
+            ImGuiNative.ImGuiViewportP_CalcWorkRectPos(&__retval, (ImGuiViewportP*)(NativePtr), off_min);
+            return __retval;
+        }
+        public Vector2 CalcWorkRectSize(Vector2 off_min, Vector2 off_max)
+        {
+            Vector2 __retval;
+            ImGuiNative.ImGuiViewportP_CalcWorkRectSize(&__retval, (ImGuiViewportP*)(NativePtr), off_min, off_max);
+            return __retval;
+        }
         public void ClearRequestFlags()
         {
             ImGuiNative.ImGuiViewportP_ClearRequestFlags((ImGuiViewportP*)(NativePtr));
@@ -68,6 +81,12 @@ namespace ImGuiNET
         public void Destroy()
         {
             ImGuiNative.ImGuiViewportP_destroy((ImGuiViewportP*)(NativePtr));
+        }
+        public ImRect GetBuildWorkRect()
+        {
+            ImRect __retval;
+            ImGuiNative.ImGuiViewportP_GetBuildWorkRect(&__retval, (ImGuiViewportP*)(NativePtr));
+            return __retval;
         }
         public ImRect GetMainRect()
         {

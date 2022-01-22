@@ -37,7 +37,8 @@ namespace ImGuiNET
         public ImGuiTableDrawChannelIdx DrawChannelFrozen;
         public ImGuiTableDrawChannelIdx DrawChannelUnfrozen;
         public byte IsEnabled;
-        public byte IsEnabledNextFrame;
+        public byte IsUserEnabled;
+        public byte IsUserEnabledNextFrame;
         public byte IsVisibleX;
         public byte IsVisibleY;
         public byte IsRequestOutput;
@@ -86,7 +87,8 @@ namespace ImGuiNET
         public ref ImGuiTableDrawChannelIdx DrawChannelFrozen => ref Unsafe.AsRef<ImGuiTableDrawChannelIdx>(&NativePtr->DrawChannelFrozen);
         public ref ImGuiTableDrawChannelIdx DrawChannelUnfrozen => ref Unsafe.AsRef<ImGuiTableDrawChannelIdx>(&NativePtr->DrawChannelUnfrozen);
         public ref bool IsEnabled => ref Unsafe.AsRef<bool>(&NativePtr->IsEnabled);
-        public ref bool IsEnabledNextFrame => ref Unsafe.AsRef<bool>(&NativePtr->IsEnabledNextFrame);
+        public ref bool IsUserEnabled => ref Unsafe.AsRef<bool>(&NativePtr->IsUserEnabled);
+        public ref bool IsUserEnabledNextFrame => ref Unsafe.AsRef<bool>(&NativePtr->IsUserEnabledNextFrame);
         public ref bool IsVisibleX => ref Unsafe.AsRef<bool>(&NativePtr->IsVisibleX);
         public ref bool IsVisibleY => ref Unsafe.AsRef<bool>(&NativePtr->IsVisibleY);
         public ref bool IsRequestOutput => ref Unsafe.AsRef<bool>(&NativePtr->IsRequestOutput);

@@ -7,6 +7,7 @@ namespace ImGuiNET
         Keyboard = 2,
         Gamepad = 3,
         Nav = 4,
-        COUNT = 5,
+        Clipboard = 5,
+        COUNT = 6,
     }
 }

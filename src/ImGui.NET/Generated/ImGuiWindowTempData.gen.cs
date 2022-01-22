@@ -19,13 +19,10 @@ namespace ImGuiNET
         public ImVec1 Indent;
         public ImVec1 ColumnsOffset;
         public ImVec1 GroupOffset;
-        public uint LastItemId;
-        public ImGuiItemStatusFlags LastItemStatusFlags;
-        public ImRect LastItemRect;
-        public ImRect LastItemDisplayRect;
+        public Vector2 CursorStartPosLossyness;
         public ImGuiNavLayer NavLayerCurrent;
-        public int NavLayerActiveMask;
-        public int NavLayerActiveMaskNext;
+        public short NavLayersActiveMask;
+        public short NavLayersActiveMaskNext;
         public uint NavFocusScopeIdCurrent;
         public byte NavHideHighlightOneFrame;
         public byte NavHasScroll;
@@ -40,14 +37,10 @@ namespace ImGuiNET
         public int CurrentTableIdx;
         public ImGuiLayoutType LayoutType;
         public ImGuiLayoutType ParentLayoutType;
-        public int FocusCounterRegular;
-        public int FocusCounterTabStop;
-        public ImGuiItemFlags ItemFlags;
         public float ItemWidth;
         public float TextWrapPos;
         public ImVector ItemWidthStack;
         public ImVector TextWrapPosStack;
-        public ImGuiStackSizes StackSizesOnBegin;
     }
     public unsafe partial struct ImGuiWindowTempDataPtr
     {
@@ -69,13 +62,10 @@ namespace ImGuiNET
         public ref ImVec1 Indent => ref Unsafe.AsRef<ImVec1>(&NativePtr->Indent);
         public ref ImVec1 ColumnsOffset => ref Unsafe.AsRef<ImVec1>(&NativePtr->ColumnsOffset);
         public ref ImVec1 GroupOffset => ref Unsafe.AsRef<ImVec1>(&NativePtr->GroupOffset);
-        public ref uint LastItemId => ref Unsafe.AsRef<uint>(&NativePtr->LastItemId);
-        public ref ImGuiItemStatusFlags LastItemStatusFlags => ref Unsafe.AsRef<ImGuiItemStatusFlags>(&NativePtr->LastItemStatusFlags);
-        public ref ImRect LastItemRect => ref Unsafe.AsRef<ImRect>(&NativePtr->LastItemRect);
-        public ref ImRect LastItemDisplayRect => ref Unsafe.AsRef<ImRect>(&NativePtr->LastItemDisplayRect);
+        public ref Vector2 CursorStartPosLossyness => ref Unsafe.AsRef<Vector2>(&NativePtr->CursorStartPosLossyness);
         public ref ImGuiNavLayer NavLayerCurrent => ref Unsafe.AsRef<ImGuiNavLayer>(&NativePtr->NavLayerCurrent);
-        public ref int NavLayerActiveMask => ref Unsafe.AsRef<int>(&NativePtr->NavLayerActiveMask);
-        public ref int NavLayerActiveMaskNext => ref Unsafe.AsRef<int>(&NativePtr->NavLayerActiveMaskNext);
+        public ref short NavLayersActiveMask => ref Unsafe.AsRef<short>(&NativePtr->NavLayersActiveMask);
+        public ref short NavLayersActiveMaskNext => ref Unsafe.AsRef<short>(&NativePtr->NavLayersActiveMaskNext);
         public ref uint NavFocusScopeIdCurrent => ref Unsafe.AsRef<uint>(&NativePtr->NavFocusScopeIdCurrent);
         public ref bool NavHideHighlightOneFrame => ref Unsafe.AsRef<bool>(&NativePtr->NavHideHighlightOneFrame);
         public ref bool NavHasScroll => ref Unsafe.AsRef<bool>(&NativePtr->NavHasScroll);
@@ -90,13 +80,9 @@ namespace ImGuiNET
         public ref int CurrentTableIdx => ref Unsafe.AsRef<int>(&NativePtr->CurrentTableIdx);
         public ref ImGuiLayoutType LayoutType => ref Unsafe.AsRef<ImGuiLayoutType>(&NativePtr->LayoutType);
         public ref ImGuiLayoutType ParentLayoutType => ref Unsafe.AsRef<ImGuiLayoutType>(&NativePtr->ParentLayoutType);
-        public ref int FocusCounterRegular => ref Unsafe.AsRef<int>(&NativePtr->FocusCounterRegular);
-        public ref int FocusCounterTabStop => ref Unsafe.AsRef<int>(&NativePtr->FocusCounterTabStop);
-        public ref ImGuiItemFlags ItemFlags => ref Unsafe.AsRef<ImGuiItemFlags>(&NativePtr->ItemFlags);
         public ref float ItemWidth => ref Unsafe.AsRef<float>(&NativePtr->ItemWidth);
         public ref float TextWrapPos => ref Unsafe.AsRef<float>(&NativePtr->TextWrapPos);
         public ImVector<float> ItemWidthStack => new ImVector<float>(NativePtr->ItemWidthStack);
         public ImVector<float> TextWrapPosStack => new ImVector<float>(NativePtr->TextWrapPosStack);
-        public ref ImGuiStackSizes StackSizesOnBegin => ref Unsafe.AsRef<ImGuiStackSizes>(&NativePtr->StackSizesOnBegin);
     }
 }

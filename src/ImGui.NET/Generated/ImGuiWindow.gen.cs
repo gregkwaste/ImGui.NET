@@ -46,11 +46,13 @@ namespace ImGuiNET
         public byte Appearing;
         public byte Hidden;
         public byte IsFallbackWindow;
+        public byte IsExplicitChild;
         public byte HasCloseButton;
         public sbyte ResizeBorderHeld;
         public short BeginCount;
         public short BeginOrderWithinParent;
         public short BeginOrderWithinContext;
+        public short FocusOrder;
         public uint PopupId;
         public sbyte AutoFitFramesX;
         public sbyte AutoFitFramesY;
@@ -90,7 +92,9 @@ namespace ImGuiNET
         public ImDrawList* DrawList;
         public ImDrawList DrawListInst;
         public ImGuiWindow* ParentWindow;
+        public ImGuiWindow* ParentWindowInBeginStack;
         public ImGuiWindow* RootWindow;
+        public ImGuiWindow* RootWindowPopupTree;
         public ImGuiWindow* RootWindowDockTree;
         public ImGuiWindow* RootWindowForTitleBarHighlight;
         public ImGuiWindow* RootWindowForNav;
@@ -102,6 +106,7 @@ namespace ImGuiNET
         public int MemoryDrawListVtxCapacity;
         public byte MemoryCompacted;
         public byte DockIsActive;
+        public byte DockNodeIsVisible;
         public byte DockTabIsVisible;
         public byte DockTabWantClose;
         public short DockOrder;
@@ -159,11 +164,13 @@ namespace ImGuiNET
         public ref bool Appearing => ref Unsafe.AsRef<bool>(&NativePtr->Appearing);
         public ref bool Hidden => ref Unsafe.AsRef<bool>(&NativePtr->Hidden);
         public ref bool IsFallbackWindow => ref Unsafe.AsRef<bool>(&NativePtr->IsFallbackWindow);
+        public ref bool IsExplicitChild => ref Unsafe.AsRef<bool>(&NativePtr->IsExplicitChild);
         public ref bool HasCloseButton => ref Unsafe.AsRef<bool>(&NativePtr->HasCloseButton);
         public ref sbyte ResizeBorderHeld => ref Unsafe.AsRef<sbyte>(&NativePtr->ResizeBorderHeld);
         public ref short BeginCount => ref Unsafe.AsRef<short>(&NativePtr->BeginCount);
         public ref short BeginOrderWithinParent => ref Unsafe.AsRef<short>(&NativePtr->BeginOrderWithinParent);
         public ref short BeginOrderWithinContext => ref Unsafe.AsRef<short>(&NativePtr->BeginOrderWithinContext);
+        public ref short FocusOrder => ref Unsafe.AsRef<short>(&NativePtr->FocusOrder);
         public ref uint PopupId => ref Unsafe.AsRef<uint>(&NativePtr->PopupId);
         public ref sbyte AutoFitFramesX => ref Unsafe.AsRef<sbyte>(&NativePtr->AutoFitFramesX);
         public ref sbyte AutoFitFramesY => ref Unsafe.AsRef<sbyte>(&NativePtr->AutoFitFramesY);
@@ -203,7 +210,9 @@ namespace ImGuiNET
         public ImDrawListPtr DrawList => new ImDrawListPtr(NativePtr->DrawList);
         public ref ImDrawList DrawListInst => ref Unsafe.AsRef<ImDrawList>(&NativePtr->DrawListInst);
         public ImGuiWindowPtr ParentWindow => new ImGuiWindowPtr(NativePtr->ParentWindow);
+        public ImGuiWindowPtr ParentWindowInBeginStack => new ImGuiWindowPtr(NativePtr->ParentWindowInBeginStack);
         public ImGuiWindowPtr RootWindow => new ImGuiWindowPtr(NativePtr->RootWindow);
+        public ImGuiWindowPtr RootWindowPopupTree => new ImGuiWindowPtr(NativePtr->RootWindowPopupTree);
         public ImGuiWindowPtr RootWindowDockTree => new ImGuiWindowPtr(NativePtr->RootWindowDockTree);
         public ImGuiWindowPtr RootWindowForTitleBarHighlight => new ImGuiWindowPtr(NativePtr->RootWindowForTitleBarHighlight);
         public ImGuiWindowPtr RootWindowForNav => new ImGuiWindowPtr(NativePtr->RootWindowForNav);
@@ -214,6 +223,7 @@ namespace ImGuiNET
         public ref int MemoryDrawListVtxCapacity => ref Unsafe.AsRef<int>(&NativePtr->MemoryDrawListVtxCapacity);
         public ref bool MemoryCompacted => ref Unsafe.AsRef<bool>(&NativePtr->MemoryCompacted);
         public ref bool DockIsActive => ref Unsafe.AsRef<bool>(&NativePtr->DockIsActive);
+        public ref bool DockNodeIsVisible => ref Unsafe.AsRef<bool>(&NativePtr->DockNodeIsVisible);
         public ref bool DockTabIsVisible => ref Unsafe.AsRef<bool>(&NativePtr->DockTabIsVisible);
         public ref bool DockTabWantClose => ref Unsafe.AsRef<bool>(&NativePtr->DockTabWantClose);
         public ref short DockOrder => ref Unsafe.AsRef<short>(&NativePtr->DockOrder);
@@ -253,7 +263,7 @@ namespace ImGuiNET
             }
             else { native_str = null; }
             byte* native_str_end = null;
-            uint ret = ImGuiNative.ImGuiWindow_GetIDStr((ImGuiWindow*)(NativePtr), native_str, native_str_end);
+            uint ret = ImGuiNative.ImGuiWindow_GetID_Str((ImGuiWindow*)(NativePtr), native_str, native_str_end);
             if (str_byteCount > Util.StackAllocationSizeLimit)
             {
                 Util.Free(native_str);
@@ -263,12 +273,12 @@ namespace ImGuiNET
         public uint GetID(IntPtr ptr)
         {
             void* native_ptr = (void*)ptr.ToPointer();
-            uint ret = ImGuiNative.ImGuiWindow_GetIDPtr((ImGuiWindow*)(NativePtr), native_ptr);
+            uint ret = ImGuiNative.ImGuiWindow_GetID_Ptr((ImGuiWindow*)(NativePtr), native_ptr);
             return ret;
         }
         public uint GetID(int n)
         {
-            uint ret = ImGuiNative.ImGuiWindow_GetIDInt((ImGuiWindow*)(NativePtr), n);
+            uint ret = ImGuiNative.ImGuiWindow_GetID_Int((ImGuiWindow*)(NativePtr), n);
             return ret;
         }
         public uint GetIDFromRectangle(ImRect r_abs)
@@ -297,7 +307,7 @@ namespace ImGuiNET
             }
             else { native_str = null; }
             byte* native_str_end = null;
-            uint ret = ImGuiNative.ImGuiWindow_GetIDNoKeepAliveStr((ImGuiWindow*)(NativePtr), native_str, native_str_end);
+            uint ret = ImGuiNative.ImGuiWindow_GetIDNoKeepAlive_Str((ImGuiWindow*)(NativePtr), native_str, native_str_end);
             if (str_byteCount > Util.StackAllocationSizeLimit)
             {
                 Util.Free(native_str);
@@ -307,12 +317,12 @@ namespace ImGuiNET
         public uint GetIDNoKeepAlive(IntPtr ptr)
         {
             void* native_ptr = (void*)ptr.ToPointer();
-            uint ret = ImGuiNative.ImGuiWindow_GetIDNoKeepAlivePtr((ImGuiWindow*)(NativePtr), native_ptr);
+            uint ret = ImGuiNative.ImGuiWindow_GetIDNoKeepAlive_Ptr((ImGuiWindow*)(NativePtr), native_ptr);
             return ret;
         }
         public uint GetIDNoKeepAlive(int n)
         {
-            uint ret = ImGuiNative.ImGuiWindow_GetIDNoKeepAliveInt((ImGuiWindow*)(NativePtr), n);
+            uint ret = ImGuiNative.ImGuiWindow_GetIDNoKeepAlive_Int((ImGuiWindow*)(NativePtr), n);
             return ret;
         }
         public float MenuBarHeight()

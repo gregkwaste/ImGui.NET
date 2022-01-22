@@ -18,6 +18,7 @@ namespace ImGuiNET
         public ImGuiTableCellData* Data;
         public ImGuiTableCellData* DataEnd;
     }
+
     public unsafe partial struct ImGuiTableCellDataPtr
     {
         public ImGuiTableCellData* NativePtr { get; }

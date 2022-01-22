@@ -5,27 +5,20 @@ using System.Text;
 
 namespace ImGuiNET
 {
-    public unsafe partial struct ImGuiDockContext
-    {
-        public ImGuiStorage Nodes;
-        public ImVector Requests;
-        public ImVector NodesSettings;
-        public byte WantFullRebuild;
-    }
 
     //I have no fucking idea about this one. Can't find the definition anywhere
     public unsafe partial struct ImGuiDockNodeSettings
     {
         public ImGuiDockNodeFlags val;
     }
-    
-    public unsafe partial struct ImVector_ImGuiDockNodeSettings
+
+    public unsafe partial struct ImGuiDockNodeSettingsPtr
     {
         public int Size;
         public int Capacity;
         public ImGuiDockNodeSettings* Data;
     }
-    
+
     //I have no fucking idea about this one. Can't find the definition anywhere
     public unsafe partial struct ImGuiDockRequest
     {
@@ -34,13 +27,21 @@ namespace ImGuiNET
 
 
 
-    public unsafe partial struct ImVector_ImGuiDockRequest
+    public unsafe partial struct ImGuiDockRequestPtr
     {
         public int Size;
         public int Capacity;
         public ImGuiDockRequest* Data;
     }
+
     
+    public unsafe partial struct ImGuiDockContext
+    {
+        public ImGuiStorage Nodes;
+        public ImVector Requests;
+        public ImVector NodesSettings;
+        public byte WantFullRebuild;
+    }
     public unsafe partial struct ImGuiDockContextPtr
     {
         public ImGuiDockContext* NativePtr { get; }
@@ -50,8 +51,8 @@ namespace ImGuiNET
         public static implicit operator ImGuiDockContext* (ImGuiDockContextPtr wrappedPtr) => wrappedPtr.NativePtr;
         public static implicit operator ImGuiDockContextPtr(IntPtr nativePtr) => new ImGuiDockContextPtr(nativePtr);
         public ref ImGuiStorage Nodes => ref Unsafe.AsRef<ImGuiStorage>(&NativePtr->Nodes);
-        public ImPtrVector<ImVector_ImGuiDockRequest> Requests => new ImPtrVector<ImVector_ImGuiDockRequest>(NativePtr->Requests, Unsafe.SizeOf<ImGuiDockRequest>());
-        public ImPtrVector<ImVector_ImGuiDockNodeSettings> NodesSettings => new ImPtrVector<ImVector_ImGuiDockNodeSettings>(NativePtr->NodesSettings, Unsafe.SizeOf<ImGuiDockNodeSettings>());
+        public ImPtrVector<ImGuiDockRequestPtr> Requests => new ImPtrVector<ImGuiDockRequestPtr>(NativePtr->Requests, Unsafe.SizeOf<ImGuiDockRequest>());
+        public ImPtrVector<ImGuiDockNodeSettingsPtr> NodesSettings => new ImPtrVector<ImGuiDockNodeSettingsPtr>(NativePtr->NodesSettings, Unsafe.SizeOf<ImGuiDockNodeSettings>());
         public ref bool WantFullRebuild => ref Unsafe.AsRef<bool>(&NativePtr->WantFullRebuild);
         public void Destroy()
         {

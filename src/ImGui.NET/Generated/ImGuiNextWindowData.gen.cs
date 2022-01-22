@@ -12,21 +12,21 @@ namespace ImGuiNET
         public ImGuiCond SizeCond;
         public ImGuiCond CollapsedCond;
         public ImGuiCond DockCond;
-        public ImVec2 PosVal;
-        public ImVec2 PosPivotVal;
-        public ImVec2 SizeVal;
-        public ImVec2 ContentSizeVal;
-        public ImVec2 ScrollVal;
+        public Vector2 PosVal;
+        public Vector2 PosPivotVal;
+        public Vector2 SizeVal;
+        public Vector2 ContentSizeVal;
+        public Vector2 ScrollVal;
         public byte PosUndock;
         public byte CollapsedVal;
         public ImRect SizeConstraintRect;
-        public void* SizeCallback; //function pointer
+        public void* SizeCallback;
         public void* SizeCallbackUserData;
         public float BgAlphaVal;
         public uint ViewportId;
         public uint DockId;
         public ImGuiWindowClass WindowClass;
-        public ImVec2 MenuBarOffsetMinVal;
+        public Vector2 MenuBarOffsetMinVal;
     }
     public unsafe partial struct ImGuiNextWindowDataPtr
     {
